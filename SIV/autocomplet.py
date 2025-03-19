@@ -28,6 +28,7 @@ driver = webdriver.Chrome(service=service, options=chrome_options)
 driver.get("https://pro-siv.interieur.gouv.fr/map-ppa-ui/do/ivo_ach_redirect")
 
 wait = 1
+waitD = WebDriverWait(driver, 10)
 # Attente de 30 secondes
 time.sleep(30)
 try:
@@ -60,7 +61,10 @@ try:
     time.sleep(wait)
     driver.find_element(By.NAME, "agrement").send_keys("PR3700017D")
     time.sleep(wait)
-    driver.find_element(By.NAME, "titulaire.isPersonnePhysique").click()
+    personne_morale_radio = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//input[@name='titulaire.isPersonnePhysique'][@value='false']"))
+    )
+    personne_morale_radio.click()
     time.sleep(wait)
     driver.find_element(By.NAME, "titulaire.siret").send_keys("31249335600033")
     time.sleep(wait)
